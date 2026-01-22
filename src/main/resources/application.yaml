@@ -1,0 +1,8 @@
+server:
+  port: 8065
+
+spring:
+  profiles:
+    active: local
+  application:
+    name: DeviceManager
