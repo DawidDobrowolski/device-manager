@@ -22,19 +22,32 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 
     implementation("org.liquibase:liquibase-core:4.29.2")
     implementation("org.apache.commons:commons-lang3")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+    implementation("org.mapstruct:mapstruct:1.5.5.Final")
 
-    compileOnly("org.projectlombok:lombok:1.18.42")
-    annotationProcessor("org.projectlombok:lombok:1.18.42")
-
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.spockframework:spock-core:2.4-groovy-5.0")
-    testImplementation("org.spockframework:spock-spring:2.4-groovy-5.0")
     runtimeOnly("org.postgresql:postgresql")
+    compileOnly("org.projectlombok:lombok:1.18.42")
+    annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "junit", module = "junit")
+    }
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.spockframework:spock-core:2.4-groovy-4.0")
+    testImplementation("org.spockframework:spock-spring:2.4-groovy-4.0")
+    testImplementation("com.h2database:h2")
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.withType<JavaCompile>{
+    options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
+    options.compilerArgs.add("-Amapstruct.defaultInjectionStrategy=constructor")
 }

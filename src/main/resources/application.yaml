@@ -2,10 +2,11 @@ server:
   port: 8065
 
 spring:
-  profiles:
-    active: local
   application:
     name: DeviceManager
+  mvc:
+    servlet:
+      path: /api
   datasource:
     url: jdbc:postgresql://localhost:5432/device_manager?currentSchema=device_manager
     username: postgres
