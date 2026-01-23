@@ -4,5 +4,6 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <include file="2026/0001-cerate-device-table.xml" relativeToChangelogFile="true"/>
+    <include file="2026/0002-add-device-indexes.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

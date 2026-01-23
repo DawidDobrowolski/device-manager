@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -38,5 +39,20 @@ public class DeviceApplicationService {
         if (StringUtils.isAllBlank(updateRequest.name(), updateRequest.brand())) {
             throw new IllegalArgumentException("At least one field must be provided");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public DeviceResponse getDevice(final UUID uuid) {
+        return mapper.toResponse(service.getDevice(uuid));
+    }
+
+    @Transactional(readOnly = true)
+    public List<DeviceResponse> findDevices(final String name, final String brand) {
+        return mapper.toResponse(service.findDevices(name, brand));
+    }
+
+    @Transactional
+    public void deleteDevice(final UUID uuid) {
+        service.deleteDevice(uuid);
     }
 }

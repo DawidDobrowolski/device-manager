@@ -64,7 +64,7 @@ public class Device {
     }
 
     public void update(final String newName, final String newBrand) {
-        if (!isUpdatable()) {
+        if (notModifiable()) {
             throw new DeviceModificationException("Device %s cannot be updated".formatted(this.uuid));
         }
 
@@ -72,8 +72,8 @@ public class Device {
         updateField(newBrand, brand -> this.brand = brand);
     }
 
-    private boolean isUpdatable() {
-        return this.state != State.IN_USE;
+    public boolean notModifiable() {
+        return this.state == State.IN_USE;
     }
 
     private void updateField(final String newValue, final Consumer<String> assign) {

@@ -13,6 +13,7 @@ public class GlobalExceptionHandler {
 
     private final static String VALIDATION_FAILED_MESSAGE = "Validation failed";
     private final static String MODIFICATION_FAILED_MESSAGE = "Modification failed";
+    private final static String DEVICE_NOT_FOUND_MESSAGE = "Device not found";
     private final static String INTERNAL_SERVER_ERROR_MESSAGE = "Internal server error";
 
     @ExceptionHandler({MethodArgumentNotValidException.class, IllegalArgumentException.class})
@@ -29,6 +30,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(new ErrorResponse(MODIFICATION_FAILED_MESSAGE));
+    }
+
+    @ExceptionHandler(DeviceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleException(final DeviceNotFoundException e) {
+        log.error(e.getMessage(), e);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(DEVICE_NOT_FOUND_MESSAGE));
     }
 
     @ExceptionHandler(Exception.class)

@@ -31,8 +31,10 @@ dependencies {
 
     runtimeOnly("org.postgresql:postgresql")
     compileOnly("org.projectlombok:lombok:1.18.42")
+    compileOnly("org.hibernate.orm:hibernate-jpamodelgen:6.6.1.Final")
     annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
+    annotationProcessor("org.hibernate.orm:hibernate-jpamodelgen:6.4.1.Final")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "junit", module = "junit")

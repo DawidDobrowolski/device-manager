@@ -1,0 +1,20 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="0002-add-device-indexes" author="Dawid Dobrowolski">
+        <createIndex indexName="idx__device__uuid" tableName="device" unique="true">
+            <column name="uuid"/>
+        </createIndex>
+
+        <createIndex indexName="idx__device__brand" tableName="device">
+            <column name="brand"/>
+        </createIndex>
+
+        <createIndex indexName="idx__device__name__brand" tableName="device">
+            <column name="name"/>
+            <column name="brand"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

@@ -15,13 +15,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -34,10 +38,7 @@ public class DeviceController {
 
     @Operation(summary = "Create device")
     @ApiResponses({
-            @ApiResponse(
-                    responseCode = "201",
-                    description = "Device created"
-            ),
+            @ApiResponse(responseCode = "201", description = "Device created"),
             @ApiResponse(
                     responseCode = "400",
                     description = "Validation failed",
@@ -57,13 +58,18 @@ public class DeviceController {
 
     @Operation(summary = "Update device")
     @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Device updated"
-            ),
+            @ApiResponse(responseCode = "200", description = "Device updated"),
             @ApiResponse(
                     responseCode = "400",
                     description = "Validation failed",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = GlobalExceptionHandler.ErrorResponse.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Device not found",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = GlobalExceptionHandler.ErrorResponse.class)
@@ -85,4 +91,63 @@ public class DeviceController {
 
         return ResponseEntity.ok(updatedDevice);
     }
+
+    @Operation(summary = "Fetch device")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Device found"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Device not found",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = GlobalExceptionHandler.ErrorResponse.class)
+                    )
+            )
+    })
+    @GetMapping("/{uuid}")
+    public ResponseEntity<DeviceResponse> getDevice(@PathVariable UUID uuid) {
+        final DeviceResponse foundDevice = service.getDevice(uuid);
+
+        return ResponseEntity.ok(foundDevice);
+    }
+
+    @Operation(summary = "Find all devices")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Found devices")})
+    @GetMapping()
+    public ResponseEntity<List<DeviceResponse>> findAllDevices(
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String name
+    ) {
+        final List<DeviceResponse> foundDevices = service.findDevices(brand, name);
+
+        return ResponseEntity.ok(foundDevices);
+    }
+
+    @Operation(summary = "Delete device by UUID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Device deleted"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Device not found",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = GlobalExceptionHandler.ErrorResponse.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Modification failed",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = GlobalExceptionHandler.ErrorResponse.class)
+                    )
+            )})
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<Void> deleteDevice(@PathVariable UUID uuid) {
+        log.info("Received device {} delete request", uuid);
+        service.deleteDevice(uuid);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

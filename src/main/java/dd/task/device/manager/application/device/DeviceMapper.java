@@ -4,8 +4,12 @@ import dd.task.device.manager.application.device.model.DeviceResponse;
 import dd.task.device.manager.domain.device.model.Device;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface DeviceMapper {
 
     DeviceResponse toResponse(Device domain);
+
+    List<DeviceResponse> toResponse(List<Device> domainDevices);
 }
