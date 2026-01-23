@@ -6,3 +6,12 @@ spring:
     active: local
   application:
     name: DeviceManager
+  datasource:
+    url: jdbc:postgresql://localhost:5432/device_manager?currentSchema=device_manager
+    username: postgres
+    password: postgres
+  liquibase:
+    change-log: changelog/master-changelog.xml
+    enabled: true
+    default-schema: device_manager
+    drop-first: false

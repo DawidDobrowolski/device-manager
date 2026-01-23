@@ -1,0 +1,39 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="0001-cerate-device-table" author="Dawid Dobrowolski">
+
+        <createTable tableName="device">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="pk__device__id"/>
+            </column>
+
+            <column name="uuid" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="brand" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="brand_normalized" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="state" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="creation_time" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createSequence incrementBy="50" sequenceName="device_seq" startValue="1"/>
+    </changeSet>
+</databaseChangeLog>
