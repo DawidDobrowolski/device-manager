@@ -46,11 +46,17 @@ dependencies {
     testImplementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
+tasks {
+    withType<JavaCompile> {
+        options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
+        options.compilerArgs.add("-Amapstruct.defaultInjectionStrategy=constructor")
+    }
 
-tasks.withType<JavaCompile>{
-    options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
-    options.compilerArgs.add("-Amapstruct.defaultInjectionStrategy=constructor")
+    withType<Test> {
+        useJUnitPlatform()
+    }
+
+    bootJar {
+        archiveClassifier.set("final")
+    }
 }
