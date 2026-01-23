@@ -12,22 +12,36 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     private final static String VALIDATION_FAILED_MESSAGE = "Validation failed";
+    private final static String MODIFICATION_FAILED_MESSAGE = "Modification failed";
     private final static String INTERNAL_SERVER_ERROR_MESSAGE = "Internal server error";
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleException(final MethodArgumentNotValidException e) {
+    @ExceptionHandler({MethodArgumentNotValidException.class, IllegalArgumentException.class})
+    public ResponseEntity<ErrorResponse> handleException(final Exception e) {
         log.error(e.getMessage(), e);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(VALIDATION_FAILED_MESSAGE);
+                .body(new ErrorResponse(VALIDATION_FAILED_MESSAGE));
+    }
+
+    @ExceptionHandler(DeviceModificationException.class)
+    public ResponseEntity<ErrorResponse> handleException(final DeviceModificationException e) {
+        log.error(e.getMessage(), e);
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorResponse(MODIFICATION_FAILED_MESSAGE));
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleAll(Exception e) {
+    public ResponseEntity<ErrorResponse> handleAll(Exception e) {
         log.error(e.getMessage(), e);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(INTERNAL_SERVER_ERROR_MESSAGE);
+                .body(new ErrorResponse(INTERNAL_SERVER_ERROR_MESSAGE));
+    }
+
+    public record ErrorResponse(
+            String message
+    ) {
     }
 }
 

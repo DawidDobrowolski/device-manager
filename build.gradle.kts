@@ -41,6 +41,7 @@ dependencies {
     testImplementation("org.spockframework:spock-core:2.4-groovy-4.0")
     testImplementation("org.spockframework:spock-spring:2.4-groovy-4.0")
     testImplementation("com.h2database:h2")
+    testImplementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
 }
 
 tasks.withType<Test> {

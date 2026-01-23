@@ -10,7 +10,7 @@
             </column>
 
             <column name="uuid" type="UUID">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
 
             <column name="name" type="VARCHAR(255)">
