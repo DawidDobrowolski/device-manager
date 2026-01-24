@@ -270,16 +270,17 @@ class DeviceControllerIT extends AbstractIT {
         foundDevices.size() == 0
     }
 
-    void 'should fetch all devices by name'() {
+    void 'should fetch all devices by state'() {
         given:
         Device firstDevice = new Device('name1', 'brand1')
+        firstDevice.state = State.INACTIVE
         Device secondDevice = new Device('name2', 'brand2')
         repository.saveAll([firstDevice, secondDevice])
         repository.findAll().size() == 2
 
         when:
         ResponseEntity<List<DeviceResponse>> response = restTemplate.exchange(
-                "http://localhost:$port/api/device-management/devices?name=${secondDevice.name}",
+                "http://localhost:$port/api/device-management/devices?state=${secondDevice.state}",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<DeviceResponse>>() {})
@@ -304,7 +305,7 @@ class DeviceControllerIT extends AbstractIT {
 
         when:
         ResponseEntity<List<DeviceResponse>> response = restTemplate.exchange(
-                "http://localhost:$port/api/device-management/devices?name=&brand=brandTest",
+                "http://localhost:$port/api/device-management/devices?state=&brand=brandTest",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<DeviceResponse>>() {})

@@ -5,6 +5,7 @@ import dd.task.device.manager.application.device.model.DeviceResponse;
 import dd.task.device.manager.application.device.model.DeviceUpdateRequest;
 import dd.task.device.manager.domain.device.DeviceDomainService;
 import dd.task.device.manager.domain.device.model.Device;
+import dd.task.device.manager.domain.device.model.State;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -47,8 +48,8 @@ public class DeviceApplicationService {
     }
 
     @Transactional(readOnly = true)
-    public List<DeviceResponse> findDevices(final String name, final String brand) {
-        return mapper.toResponse(service.findDevices(name, brand));
+    public List<DeviceResponse> findDevices(final State state, final String brand) {
+        return mapper.toResponse(service.findDevices(state, brand));
     }
 
     @Transactional

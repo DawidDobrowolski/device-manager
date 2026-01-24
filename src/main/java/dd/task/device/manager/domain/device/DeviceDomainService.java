@@ -1,6 +1,7 @@
 package dd.task.device.manager.domain.device;
 
 import dd.task.device.manager.domain.device.model.Device;
+import dd.task.device.manager.domain.device.model.State;
 import dd.task.device.manager.infrastructure.common.DeviceModificationException;
 import dd.task.device.manager.infrastructure.common.DeviceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +42,8 @@ public class DeviceDomainService {
         return deviceCandidate.get();
     }
 
-    public List<Device> findDevices(final String name, final String brand) {
-        return repository.findByBrandAndName(name, brand);
+    public List<Device> findDevices(final State state, final String brand) {
+        return repository.findByStateAndBrand(state, brand);
     }
 
     public void deleteDevice(final UUID uuid) {
