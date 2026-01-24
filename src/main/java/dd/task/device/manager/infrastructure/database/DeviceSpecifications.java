@@ -2,6 +2,7 @@ package dd.task.device.manager.infrastructure.database;
 
 import dd.task.device.manager.domain.device.model.Device;
 import dd.task.device.manager.domain.device.model.Device_;
+import dd.task.device.manager.domain.device.model.State;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -14,8 +15,8 @@ public class DeviceSpecifications {
                 StringUtils.isBlank(brand) ? null : cb.equal(root.get(Device_.BRAND_NORMALIZED), brandNormalized);
     }
 
-    public static Specification<Device> hasName(String name) {
+    public static Specification<Device> hasState(State state) {
         return (root, query, cb) ->
-                StringUtils.isBlank(name) ? null : cb.equal(root.get(Device_.NAME), name);
+                state == null ? null : cb.equal(root.get(Device_.STATE), state);
     }
 }

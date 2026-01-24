@@ -7,13 +7,13 @@
             <column name="uuid"/>
         </createIndex>
 
-        <createIndex indexName="idx__device__brand" tableName="device">
-            <column name="brand"/>
+        <createIndex indexName="idx__device__state" tableName="device">
+            <column name="state"/>
         </createIndex>
 
-        <createIndex indexName="idx__device__name__brand" tableName="device">
-            <column name="name"/>
-            <column name="brand"/>
+        <createIndex indexName="idx__device__brand_normalized__state" tableName="device">
+            <column name="brand_normalized"/>
+            <column name="state"/>
         </createIndex>
     </changeSet>
 

@@ -4,6 +4,7 @@ import dd.task.device.manager.application.device.DeviceApplicationService;
 import dd.task.device.manager.application.device.model.DeviceCreateRequest;
 import dd.task.device.manager.application.device.model.DeviceResponse;
 import dd.task.device.manager.application.device.model.DeviceUpdateRequest;
+import dd.task.device.manager.domain.device.model.State;
 import dd.task.device.manager.infrastructure.common.GlobalExceptionHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -116,9 +117,9 @@ public class DeviceController {
     @GetMapping()
     public ResponseEntity<List<DeviceResponse>> findAllDevices(
             @RequestParam(required = false) String brand,
-            @RequestParam(required = false) String name
+            @RequestParam(required = false) State state
     ) {
-        final List<DeviceResponse> foundDevices = service.findDevices(brand, name);
+        final List<DeviceResponse> foundDevices = service.findDevices(state, brand);
 
         return ResponseEntity.ok(foundDevices);
     }

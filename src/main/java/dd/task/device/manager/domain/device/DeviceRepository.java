@@ -1,6 +1,7 @@
 package dd.task.device.manager.domain.device;
 
 import dd.task.device.manager.domain.device.model.Device;
+import dd.task.device.manager.domain.device.model.State;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,7 @@ public interface DeviceRepository {
 
     Optional<Device> findByUuid(UUID uuid);
 
-    List<Device> findByBrandAndName(String brand, String name);
+    List<Device> findByStateAndBrand(State state, String brand);
 
     void delete(Device device);
 }
